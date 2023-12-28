@@ -14,7 +14,7 @@ const render = require("./src/page-template.js");
 function writeToFile(fileName, data) {
     fs.writeFile(fileName, render(data), (err)=>{
         if(err) throw err;
-        console.log("Generating README...")
+        console.log("HTML file generated")
     })
 }
 
