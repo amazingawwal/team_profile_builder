@@ -1,3 +1,4 @@
+const Employee = require("./lib/Employee.js")
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -10,6 +11,12 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
 
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, render(data), (err)=>{
+        if(err) throw err;
+        console.log("Generating README...")
+    })
+}
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 
@@ -100,13 +107,13 @@ inquirer
     {
         when: (response) => response.teamMembers === "Intern",
         type:"input",
-        name:"InternName",
+        name:"internName",
         message:"Enter Intern's name"
 
     },
     {
         type:"input",
-        name:"InternID",
+        name:"internID",
         message:"Enter Intern's ID",
     },
     {
@@ -127,5 +134,17 @@ inquirer
     }
 ])
 .then((response)=>{
-    console.log(response)
+    const employeeArray = [];
+    const manager  = new Manager (response.managerName, response.managerID, response.managerEmail, response.managerOffice);
+    const engineer = new Engineer (response.engineerName1, response.engineerID1, response.engineerEmail1, response.engineerGitHubUsername1);
+    const engineer2 = new Engineer (response.engineerName2, response.engineerID2, response.engineerEmail2, response.engineerGitHubUsername2);
+    const intern = new Intern (response.internName, response.internID, response.internEmail, response.internSchool);
+    employeeArray.push(manager,engineer,engineer2,intern);
+    // console.log(manager);
+    // console.log(engineer);
+    // console.log(engineer2);
+    // console.log(intern);
+    //console.log(employeeArray);
+    writeToFile("team.html", employeeArray);
 });
+
