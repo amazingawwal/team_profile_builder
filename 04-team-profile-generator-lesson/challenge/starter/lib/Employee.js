@@ -19,7 +19,6 @@ class Employee {
     }
 };
 
+module.exports = Employee;
 
-const jon = new Employee("Jon", 1, "me");
 
-console.log(jon.id);
